@@ -1,13 +1,14 @@
 import { Button, Label, Col, FormGroup } from "reactstrap";
-import { Formik, Field, Form } from "formik";
-
-// const validateForm = () => ({});
-
-// const handleSubmit = (values) => {
-//     console.log(values);
-// };
+import { Formik, Field, Form, ErrorMessage } from "formik";
+import { validateContactForm } from "../utils/validateContactForm";
 
 const ContactForm = () => {
+    const handleSubmit = (values, { resetForm }) => {
+        console.log("form values:", values);
+        console.log("in JSON format:", JSON.stringify(values));
+        resetForm();
+    };
+
     return (
         <Formik
             initialValues={{
@@ -19,6 +20,8 @@ const ContactForm = () => {
                 contactType: "By Phone",
                 feedback: "",
             }}
+            onSubmit={handleSubmit}
+            validate={validateContactForm}
         >
             <Form>
                 <FormGroup row>
@@ -26,12 +29,14 @@ const ContactForm = () => {
                         First Name
                     </Label>
                     <Col md="10">
-                        {" "}
                         <Field
-                            className="form-control"
                             name="firstName"
                             placeholder="First Name"
+                            className="form-control"
                         />
+                        <ErrorMessage name="firstName">
+                            {(msg) => <p className="text-danger">{msg}</p>}
+                        </ErrorMessage>
                     </Col>
                 </FormGroup>
                 <FormGroup row>
@@ -40,10 +45,13 @@ const ContactForm = () => {
                     </Label>
                     <Col md="10">
                         <Field
-                            className="form-control"
                             name="lastName"
                             placeholder="Last Name"
+                            className="form-control"
                         />
+                        <ErrorMessage name="lastName">
+                            {(msg) => <p className="text-danger">{msg}</p>}
+                        </ErrorMessage>
                     </Col>
                 </FormGroup>
                 <FormGroup row>
@@ -52,10 +60,13 @@ const ContactForm = () => {
                     </Label>
                     <Col md="10">
                         <Field
-                            className="form-control"
                             name="phoneNum"
                             placeholder="Phone"
-                        />{" "}
+                            className="form-control"
+                        />
+                        <ErrorMessage name="phoneNum">
+                            {(msg) => <p className="text-danger">{msg}</p>}
+                        </ErrorMessage>
                     </Col>
                 </FormGroup>
                 <FormGroup row>
@@ -64,10 +75,14 @@ const ContactForm = () => {
                     </Label>
                     <Col md="10">
                         <Field
+                            name="email"
+                            placeholder="Email"
+                            type="email"
                             className="form-control"
-                            name="phoneNum"
-                            placeholder="Phone"
                         />
+                        <ErrorMessage name="email">
+                            {(msg) => <p className="text-danger">{msg}</p>}
+                        </ErrorMessage>
                     </Col>
                 </FormGroup>
                 <FormGroup row>
@@ -81,9 +96,9 @@ const ContactForm = () => {
                     </Label>
                     <Col md="4">
                         <Field
-                            className="form-control"
                             name="contactType"
                             as="select"
+                            className="form-control"
                         >
                             <option>By Phone</option>
                             <option>By Email</option>
@@ -96,21 +111,23 @@ const ContactForm = () => {
                     </Label>
                     <Col md="10">
                         <Field
-                            className="form-control"
                             name="feedback"
                             as="textarea"
                             rows="12"
+                            className="form-control"
                         />
                     </Col>
                 </FormGroup>
-                <FormGroup row></FormGroup>
+                <FormGroup row>
+                    <Col md={{ size: 10, offset: 2 }}>
+                        <Button type="submit" color="primary">
+                            Send Feedback
+                        </Button>
+                    </Col>
+                </FormGroup>
             </Form>
         </Formik>
     );
 };
 
-function App() {
-    return <ContactForm />;
-}
-
-export default App;
+export default ContactForm;
