@@ -1,28 +1,12 @@
-const users = [
-    {
-        username: "edie",
-        location: "seattle",
-    },
-    {
-        username: "tomah",
-        location: "portland",
-    },
-    {
-        username: "jerome",
-        location: "oakland",
-    },
-    {
-        username: "solace",
-        location: "oakland",
-    },
-];
-
-const usersByCity = users.reduce(
-    (acc, user) => ({
-        ...acc,
-        [user.location]: (acc[user.location] || 0) + 1,
-    }),
-    { oakland: 100, byzantium: 1000 }
-);
-
-console.log(usersByCity);
+const actions = [{ type: "upper_case" }, { type: "lower_case" }];
+const initialName = "Mary";
+const newName = actions.reduce((name, action) => {
+    switch (action.type) {
+        case "upper_case":
+            return name.toUpperCase();
+        case "lower_case":
+            return name.toLowerCase();
+        default:
+            return name;
+    }
+}, initialName);
