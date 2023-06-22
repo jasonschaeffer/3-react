@@ -10,3 +10,5 @@ const newName = actions.reduce((name, action) => {
             return name;
     }
 }, initialName);
+
+console.log(newName);
