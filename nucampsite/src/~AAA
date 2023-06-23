@@ -1,0 +1,49 @@
+function calDoneTyping(tTimer) {
+    try {
+        var cVal = sessionStorage.getItem("cDataUnit");
+        console.log("Calculator Done Typing...");
+        sessionStorage.removeItem("cDataUnit");
+        s.prop42 = "Calculator:" + cVal;
+        s.linkTrackVars = "eVar2,eVar3,prop1,prop2,prop42,";
+        s.tl(this, "o", "Calculator");
+        clearTimeout(tTimer);
+    } catch (e) {}
+}
+
+// Calculator Implementation
+// Calculator Tab Click tracking
+$(".calc-tab").on("click", function () {
+    var cCat = $(this).attr("data-category");
+    console.log("Calculator on Mousedown title");
+    s.prop42 = "Calculator:" + cCat;
+    s.linkTrackVars = "eVar2,eVar3,prop1,prop2,prop42,";
+    s.tl(this, "o", "Calculator");
+});
+
+//Bulk Calculator Tab Title Input Tracking
+var tTimer;
+var $input = $(".calc_input");
+console.log("input::", $input);
+
+//on change, start the countdown
+$input.on("keyup", function () {
+    if ($input.length && $input[0].value !== "") {
+        console.log("change calculator", $input);
+        clearTimeout(tTimer);
+        sessionStorage.setItem("cDataUnit", $(this).parent().attr("data-unit"));
+        tTimer = setTimeout(calDoneTyping, 1000, tTimer);
+    }
+});
+
+//on keydown, clear the countdown
+/* $input.on('keydown', function() {
+        clearTimeout(tTimer);
+    });*/
+
+$(".clear-calc-inputs").on("change", function () {
+    var cCat = $(this).attr("data-category");
+    console.log("Calculator on Mousedown inputs");
+    s.prop42 = "Calculator:Clear";
+    s.linkTrackVars = "eVar2,eVar3,prop1,prop2,prop42,";
+    s.tl(this, "o", "Calculator");
+});
